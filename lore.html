@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Observador</title>
+
+<!-- FUENTE PIXEL -->
+<link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  background: black;
+  height: 100%;
+  overflow: hidden;
+  color: red;
+  font-family: 'Minecraft', monospace;
+}
+
+/* CONTENEDOR */
+#ojos {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* OJOS */
+.eye {
+  position: absolute;
+  background-image: url('https://files.catbox.moe/wto8l5.png');
+  background-size: cover;
+  image-rendering: pixelated;
+  animation: blink infinite;
+}
+
+/* PARPADEO */
+@keyframes blink {
+  0%, 85%, 100% { transform: scaleY(1); }
+  92% { transform: scaleY(0.05); }
+}
+
+/* TEXTO */
+#mensaje {
+  position: absolute;
+  bottom: 15%;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 2s;
+  letter-spacing: 2px;
+}
+
+/* EFECTO OSCURO */
+body::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent 40%, black 100%);
+  pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+
+<div id="ojos"></div>
+
+<div id="mensaje">
+  <p>YOU SAW US ALREADY.</p>
+  <p>NOW WE SEE YOU.</p>
+  <p>SOME SECRETS HAD TO REMAIN HIDDEN.</p>
+</div>
+
+<!-- AUDIO -->
+<audio id="audio">
+  <source src="https://files.catbox.moe/wo43od.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let contenedor = document.getElementById("ojos");
+let audio = document.getElementById("audio");
+    
+    // ACTIVAR AUDIO AUTOMÁTICO (truco permitido)
+document.body.addEventListener("click", () => {
+  audio.play();
+}, { once: true });
+ 
+// CREAR OJOS
+for (let i = 0; i < 50; i++) {
+  let eye = document.createElement("div");
+  eye.classList.add("eye");
+
+  // Tamaño más visible
+  let size = Math.random() * 30 + 15;
+  eye.style.width = size + "px";
+  eye.style.height = size + "px";
+
+  // Posición
+  eye.style.left = Math.random() * 100 + "%";
+  eye.style.top = Math.random() * 100 + "%";
+
+  // Parpadeo irregular
+  eye.style.animationDuration = (Math.random() * 3 + 2) + "s";
+
+  contenedor.appendChild(eye);
+}
+
+// AUDIO SOLO 2 VECES
+let veces = 0;
+
+audio.addEventListener("ended", () => {
+  veces++;
+  if (veces < 2) {
+    audio.currentTime = 0;
+    audio.play();
+  }
+});
+
+// MOSTRAR TEXTO MÁS RÁPIDO
+setTimeout(() => {
+  document.getElementById("mensaje").style.opacity = 1;
+}, 4000);
+
+// EFECTO GLITCH
+setInterval(() => {
+  if (Math.random() > 0.96) {
+    document.body.style.background = "#020000";
+  } else {
+    document.body.style.background = "black";
+  }
+}, 120);
+</script>
+
+</body>
+</html>
